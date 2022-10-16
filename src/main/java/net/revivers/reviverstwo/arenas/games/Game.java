@@ -112,6 +112,11 @@ public class Game {
 
         updateScoreboards();
 
+        for (Player loopPlayer : players.keySet()) {
+            loopPlayer.showPlayer(player);
+            player.showPlayer(loopPlayer);
+        }
+
         players.put(player, false);
         player.teleport(lobbyLocation);
 
@@ -172,10 +177,16 @@ public class Game {
         player.setAllowFlight(false);
         player.setGameMode(GameMode.ADVENTURE);
 
+        List<Player> totalPlayers = new ArrayList<>(players.keySet());
+        totalPlayers.addAll(spectators);
+
         if (round == 0) {
-            List<Player> totalPlayers = new ArrayList<>(players.keySet());
-            totalPlayers.addAll(spectators);
             totalPlayers.forEach((loopPlayer) -> loopPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&', ReviversTwo.getChat().getPlayerSuffix(player) + player.getName() + "&e has quit!")));
+        }
+
+        for (Player loopPlayer : Bukkit.getOnlinePlayers()) {
+            loopPlayer.showPlayer(player);
+            player.showPlayer(loopPlayer);
         }
 
         if (inMatch) {
